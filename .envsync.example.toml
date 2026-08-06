@@ -1,0 +1,28 @@
+[project]
+name = "my-app"
+
+[envs]
+# Environments managed by this project. The matching files are
+# `.env.local`, `.env.staging`, `.env.production`, etc.
+files = ["local", "staging", "production"]
+example = ".env.example"
+
+[team]
+# Directory (relative to project root) where teammates' PUBLIC keys live.
+# Public keys are safe to commit to the repository.
+keys_dir = ".envsync/team-keys"
+
+[crypto]
+# Default hybrid encryption scheme: X25519 key agreement + AES-256-GCM.
+algorithm = "x25519-aes256gcm"
+
+[check]
+# Values matching these (case-insensitive) patterns are flagged as dangerous.
+dangerous_patterns = [
+    "password",
+    "secret",
+    "token",
+    "api_key",
+    "private_key",
+    "credential",
+]

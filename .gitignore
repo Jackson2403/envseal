@@ -1,0 +1,21 @@
+# Compiled binaries and build artifacts
+/bin/
+/dist/
+*.exe
+
+# EnvSync secrets and bundles - never commit these
+.env
+.env.*
+!*.example
+.envsync.enc
+.envsync/team-keys/*.toml.enc
+
+# Local scratch/integration-test workspace
+.scratch/
+
+# Tooling
+*.test
+*.out
+*.log
+.idea/
+.vscode/
