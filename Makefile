@@ -1,5 +1,5 @@
 BINARY=envseal
-VERSION?=0.1.0
+VERSION?=0.2.0
 LDFLAGS=-ldflags "-s -w -X github.com/Jackson2403/envseal/internal/cli.Version=$(VERSION)"
 
 GO=go
