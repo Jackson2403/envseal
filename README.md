@@ -9,6 +9,14 @@ see them.
 > Kill the "it works on my machine" error. Audit what's missing, share only
 > what's needed, and keep secrets on your own machines.
 
+<p align="center">
+  <img alt="Go" src="https://img.shields.io/github/go-mod/go-version/Jackson2403/envsync?logo=go&logoColor=white&label=Go" />
+  <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Jackson2403/envsync/ci.yml?branch=main&label=CI" />
+  <img alt="Release" src="https://img.shields.io/github/v/release/Jackson2403/envsync?include_prereleases&label=Release" />
+  <img alt="Downloads" src="https://img.shields.io/github/downloads/Jackson2403/envsync/total" />
+  <img alt="License" src="https://img.shields.io/github/license/Jackson2403/envsync" />
+</p>
+
 ---
 
 ## Highlights
