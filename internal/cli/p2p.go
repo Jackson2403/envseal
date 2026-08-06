@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fatih/color"
-	"github.com/spf13/cobra"
 	"github.com/Jackson2403/envsync/internal/config"
 	"github.com/Jackson2403/envsync/internal/crypto"
 	"github.com/Jackson2403/envsync/internal/transport"
+	"github.com/fatih/color"
+	"github.com/spf13/cobra"
 )
 
 func newP2PCmd() *cobra.Command {

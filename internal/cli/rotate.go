@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/spf13/cobra"
 	"github.com/Jackson2403/envsync/internal/config"
 	"github.com/Jackson2403/envsync/internal/crypto"
 	"github.com/Jackson2403/envsync/internal/transport"
+	"github.com/spf13/cobra"
 )
 
 func newRotateCmd() *cobra.Command {

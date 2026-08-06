@@ -1,0 +1,15 @@
+# Normalize line endings for cross-platform consistency.
+* text=auto
+
+# Go source stays LF everywhere (gofmt requires LF).
+*.go text eol=lf
+go.mod text eol=lf
+go.sum text eol=lf
+Makefile text eol=lf
+
+# Shell and CI config.
+Makefile text eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf

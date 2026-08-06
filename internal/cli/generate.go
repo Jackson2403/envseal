@@ -8,9 +8,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/spf13/cobra"
 	"github.com/Jackson2403/envsync/internal/config"
 	"github.com/Jackson2403/envsync/internal/parser"
+	"github.com/spf13/cobra"
 )
 
 // envCallPatterns match common environment-variable access patterns across

@@ -8,12 +8,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fatih/color"
-	"github.com/olekukonko/tablewriter"
-	"github.com/spf13/cobra"
 	"github.com/Jackson2403/envsync/internal/audit"
 	"github.com/Jackson2403/envsync/internal/config"
 	"github.com/Jackson2403/envsync/internal/parser"
+	"github.com/fatih/color"
+	"github.com/olekukonko/tablewriter"
+	"github.com/spf13/cobra"
 )
 
 func newHistoryCmd() *cobra.Command {
