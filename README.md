@@ -271,3 +271,9 @@ authentic sender, not just a matching key).
 
 [MIT](LICENSE)
 
+## Security
+
+Found a vulnerability or want the full threat model? See
+[`SECURITY.md`](SECURITY.md) — or report privately via
+[GitHub Security Advisories](https://github.com/Jackson2403/envsync/security/advisories/new).
+
