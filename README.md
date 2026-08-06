@@ -29,7 +29,7 @@ see them.
 
 ## Install
 
-Requires **Go 1.22+**.
+Requires **Go 1.24+**.
 
 ```bash
 # Build into ./bin (see Makefile for cross-platform targets)
