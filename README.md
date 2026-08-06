@@ -267,6 +267,61 @@ Future ideas: a hosted relay for machines behind NAT, YubiKey/TPM-backed
 identity, and signing the Envelope itself (so recipients can verify an
 authentic sender, not just a matching key).
 
+---
+
+## FAQ
+
+**Is my secret ever stored in the cloud?**
+No. Only public keys and ciphertext exist in a bundle or on the wire. The
+decrypted `.env` is written locally; the encrypted bundle and any pairing data
+are designed to be exchanged out-of-band.
+
+**Why use both X25519 and AES-256-GCM?**
+Encrypting the payload directly with a fast symmetric cipher (AES-256-GCM)
+would need the same key shared by everyone. Instead we use a random per-envelope
+session key sealed separately for each recipient with X25519 ECDH — so each
+recipient gets their own wrapped copy and forward secrecy from ephemeral keys.
+
+**How do I bootstrap my team quickly?**
+Each developer runs `envsync init`. Share only the printed **public key**
+(base64) — it is safe to commit — and register it with
+`envsync team add <email> --pubkey <base64>`. No cloud, no central server.
+
+**Can I use my existing SSH key?**
+Yes. `envsync init --ssh` derives your EnvSync identity from
+`~/.ssh/id_ed25519` (or `--ssh-key <path>`), so there's no new key to manage.
+
+**What if a teammate leaves?**
+`envsync team remove <email>` drops their public key, then `envsync rotate`
+re-encrypts a bundle for the remaining members. Discard any bundle already
+distributed to the departing member.
+
+**Will `sync` clobber my local tweaks?**
+Not if you use `--merge`. `envsync sync --merge` overlays only incoming keys and
+preserves your existing entries and comments. Without `--merge`, the whole file
+is replaced.
+
+**How do I stop someone committing `.env` by accident?**
+`envsync hook install` writes a `pre-commit` hook that blocks `.env` files
+(other than `.env.example`/`.env.test`) and secret-looking lines in any staged
+file. `git commit --no-verify` overrides it in an emergency.
+
+**Is my local history tamper-proof?**
+`share`/`sync`/`rotate` append Ed25519-signed entries. Run
+`envsync history verify` to detect any modification.
+
+**How do I install it?**
+Grab the matching binary from the
+[Releases](https://github.com/Jackson2403/envsync/releases) page, or
+`go install github.com/Jackson2403/envsync/cmd/envsync@latest`.
+
+---
+
+## Contributing
+
+Contributions are welcome! Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup,
+coding conventions, and the PR checklist.
+
 ## License
 
 [MIT](LICENSE)
