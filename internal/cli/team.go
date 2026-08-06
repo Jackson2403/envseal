@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/crypto"
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
@@ -33,7 +33,7 @@ func newTeamAddCmd() *cobra.Command {
 		Short: "Register a teammate's public key",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) != 1 {
-				return fmt.Errorf("usage: envsync team add <email>")
+				return fmt.Errorf("usage: envseal team add <email>")
 			}
 			email := strings.ToLower(args[0])
 
@@ -87,7 +87,7 @@ func newTeamRemoveCmd() *cobra.Command {
 		Short: "Remove a teammate's public key",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) != 1 {
-				return fmt.Errorf("usage: envsync team remove <email>")
+				return fmt.Errorf("usage: envseal team remove <email>")
 			}
 			cfg, err := config.Load(".")
 			if err != nil {

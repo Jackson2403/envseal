@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/diff"
-	"github.com/Jackson2403/envsync/internal/parser"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/diff"
+	"github.com/Jackson2403/envseal/internal/parser"
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
@@ -109,7 +109,7 @@ func renderTable(examplePath, localPath string, report diff.Report) error {
 
 	fmt.Printf("%s %d missing\n", red("!"), report.MissingCount())
 	fmt.Printf("Run '%s' to see how to sync missing secrets.\n",
-		"envsync share --help")
+		"envseal share --help")
 	return nil
 }
 

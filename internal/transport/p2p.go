@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-// P2P pairs two EnvSync instances over a direct encrypted TCP connection.
+// P2P pairs two EnvSeal instances over a direct encrypted TCP connection.
 // A human-readable pairing code seeds a deterministic Ed25519 certificate, so
 // the receiver can cryptographically verify (pin) the sender's identity from
 // the code alone — a man-in-the-middle needs to know the code to impersonate.
@@ -70,7 +70,7 @@ func codeKeyPair(code string) (tls.Certificate, ed25519.PublicKey, error) {
 		KeyUsage:              x509.KeyUsageDigitalSignature,
 		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth, x509.ExtKeyUsageClientAuth},
 		BasicConstraintsValid: true,
-		DNSNames:              []string{"envsync"},
+		DNSNames:              []string{"envseal"},
 	}
 	derCert, err := x509.CreateCertificate(rand.Reader, tmpl, tmpl, pub, priv)
 	if err != nil {
@@ -191,7 +191,7 @@ func Fetch(addr, code string, timeout time.Duration) ([]byte, error) {
 		MinVersion:            tls.VersionTLS13,
 		InsecureSkipVerify:    true, // verified manually below
 		VerifyPeerCertificate: verifyPinned(want),
-		ServerName:            "envsync",
+		ServerName:            "envseal",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("dial %s: %w", addr, err)

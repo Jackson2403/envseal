@@ -1,17 +1,17 @@
 // Package transport handles the mechanics of exchanging encrypted secret
 // bundles between developers. The file transport reads/writes standalone
-// .envsync.* files that can be sent over AirDrop, USB, shared drives, etc.
+// .envseal.* files that can be sent over AirDrop, USB, shared drives, etc.
 package transport
 
 import (
 	"os"
 	"path/filepath"
 
-	"github.com/Jackson2403/envsync/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/crypto"
 )
 
 // DefaultOutputExt is the suffix used for exported bundles.
-const DefaultOutputExt = ".envsync.enc"
+const DefaultOutputExt = ".envseal.enc"
 
 // WriteEnvelope persists an envelope to path.
 func WriteEnvelope(path string, env *crypto.Envelope) error {
@@ -32,7 +32,7 @@ func ReadEnvelope(path string) (*crypto.Envelope, error) {
 }
 
 // OutputName builds an output filename for an env, e.g.
-// "STAGING" -> "STAGING.envsync.enc". An explicit dir is preserved.
+// "STAGING" -> "STAGING.envseal.enc". An explicit dir is preserved.
 func OutputName(envName, dir string) string {
 	return filepath.Join(dir, envName+DefaultOutputExt)
 }

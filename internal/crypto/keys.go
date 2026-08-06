@@ -1,4 +1,4 @@
-// Package crypto implements EnvSync's hybrid encryption: secrets are wrapped
+// Package crypto implements EnvSeal's hybrid encryption: secrets are wrapped
 // in an AES-256-GCM session key, and that session key is encrypted to each
 // recipient's X25519 public key. Secrets are never stored in plaintext.
 package crypto

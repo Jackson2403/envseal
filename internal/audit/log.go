@@ -1,6 +1,6 @@
 // Package audit maintains a small, local-only, append-only, cryptographically
-// signed log of EnvSync operations (share, sync, rotate). It lives under
-// ~/.envsync/history and is never synced or committed.
+// signed log of EnvSeal operations (share, sync, rotate). It lives under
+// ~/.envseal/history and is never synced or committed.
 package audit
 
 import (
@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/crypto"
 )
 
 // Entry is a single signed, timestamped audit record.
@@ -29,7 +29,7 @@ type Entry struct {
 
 // Dir is the per-user history directory.
 func Dir() string {
-	return filepath.Join(config.EnvSyncHome(), "history")
+	return filepath.Join(config.EnvSealHome(), "history")
 }
 
 // sanitize mangles a project name into a safe filename component.

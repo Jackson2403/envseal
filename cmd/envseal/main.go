@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Jackson2403/envsync/internal/cli"
+	"github.com/Jackson2403/envseal/internal/cli"
 )
 
 func main() {

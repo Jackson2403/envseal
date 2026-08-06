@@ -1,6 +1,6 @@
-# Contributing to EnvSync
+# Contributing to EnvSeal
 
-Thanks for helping out! EnvSync is a small, security-focused CLI, so we value
+Thanks for helping out! EnvSeal is a small, security-focused CLI, so we value
 clear, reviewable changes that keep the blast radius small. Reading this guide
 (few minutes) is the best way to get a change merged.
 
@@ -24,7 +24,7 @@ Requirements: **Go 1.24+** and `git`.
 
 ```bash
 # Fork & clone, then:
-make build        # compile ./bin/envsync
+make build        # compile ./bin/envseal
 make test         # run unit tests
 make vet          # static analysis
 make cross        # cross-compile all platforms into ./dist

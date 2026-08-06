@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/crypto"
-	"github.com/Jackson2403/envsync/internal/transport"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/transport"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +20,7 @@ func newRotateCmd() *cobra.Command {
 		Short: "Re-encrypt a bundle for the current team key set",
 		Long: `Decrypt a received bundle with your local key and re-encrypt it for
 the current team members. Use this after a member leaves: their public key is
-removed from .envsync/team-keys, then run rotate so the departing member can no
+removed from .envseal/team-keys, then run rotate so the departing member can no
 longer open future bundles.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if bundlePath == "" && len(args) > 0 {
@@ -96,7 +96,7 @@ func allTeamPubKeys(cfg config.Config) ([][]byte, error) {
 		return nil, err
 	}
 	if len(members) == 0 {
-		return nil, fmt.Errorf("no team members registered; use --to or 'envsync team add'")
+		return nil, fmt.Errorf("no team members registered; use --to or 'envseal team add'")
 	}
 
 	seen := map[string]bool{}

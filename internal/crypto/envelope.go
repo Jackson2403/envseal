@@ -14,7 +14,7 @@ const envelopeVersion = 1
 
 // aad is the authenticated data bound to the payload, preventing ciphertext
 // from being mixed between different envelopes.
-var aad = []byte("envsync-v1-payload")
+var aad = []byte("envseal-v1-payload")
 
 // RecipientSeal holds the wrapped session key for a single recipient.
 type RecipientSeal struct {

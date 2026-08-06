@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Jackson2403/envsync/internal/parser"
+	"github.com/Jackson2403/envseal/internal/parser"
 )
 
 // EntryKind classifies a discrepancy.

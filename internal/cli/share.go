@@ -5,9 +5,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/crypto"
-	"github.com/Jackson2403/envsync/internal/transport"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/transport"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +23,7 @@ func newShareCmd() *cobra.Command {
 		Short:   "Encrypt an env file for specific teammates",
 		Long: `Reads an environment file, encrypts it with AES-256-GCM using a
 random session key, and wraps that key for each named recipient's public key.
-Produces a standalone .envsync.enc bundle that can be sent out-of-band.`,
+Produces a standalone .envseal.enc bundle that can be sent out-of-band.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) > 0 {
 				to = append(to, args...)
@@ -106,7 +106,7 @@ func resolveRecipients(cfg config.Config, emails []string) ([][]byte, error) {
 		seen[email] = true
 		m, ok := byEmail[strings.ToLower(email)]
 		if !ok {
-			return nil, fmt.Errorf("no public key on file for %q; add it with 'envsync team add %s'",
+			return nil, fmt.Errorf("no public key on file for %q; add it with 'envseal team add %s'",
 				email, email)
 		}
 		pub, err := crypto.DecodePublicKey(m.PubKey)

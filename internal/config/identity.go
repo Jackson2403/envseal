@@ -7,30 +7,30 @@ import (
 	"path/filepath"
 )
 
-// EnvSyncHome is the per-user directory storing the operator's own keys.
-// On most platforms this resolves to ~/.envsync, but it can be relocated by
-// setting the ENVSYNC_HOME environment variable (also used by tests).
-func EnvSyncHome() string {
-	if v := os.Getenv("ENVSYNC_HOME"); v != "" {
+// EnvSealHome is the per-user directory storing the operator's own keys.
+// On most platforms this resolves to ~/.envseal, but it can be relocated by
+// setting the ENVSEAL_HOME environment variable (also used by tests).
+func EnvSealHome() string {
+	if v := os.Getenv("ENVSEAL_HOME"); v != "" {
 		return v
 	}
 	home, err := os.UserHomeDir()
 	if err != nil {
 		home = "."
 	}
-	return filepath.Join(home, ".envsync")
+	return filepath.Join(home, ".envseal")
 }
 
 // KeyPaths returns the private and public key file paths for the local
 // operator identity.
 func KeyPaths() (priv, pub string) {
-	home := EnvSyncHome()
+	home := EnvSealHome()
 	return filepath.Join(home, "identity.key"), filepath.Join(home, "identity.pub")
 }
 
 // EnsureHome creates the key directory if it does not yet exist.
 func EnsureHome() error {
-	return os.MkdirAll(EnvSyncHome(), 0o700)
+	return os.MkdirAll(EnvSealHome(), 0o700)
 }
 
 // HasIdentity reports whether a local keypair has been generated.

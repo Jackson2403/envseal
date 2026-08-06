@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/crypto"
-	"github.com/Jackson2403/envsync/internal/transport"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/transport"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -17,8 +17,8 @@ func newP2PCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "p2p",
 		Short: "Exchange bundles directly over an encrypted connection",
-		Long: `Direct, encrypted machine-to-machine exchange. Use 'envsync p2p
-share' to listen for a teammate, then 'envsync p2p sync --addr <host:port>
+		Long: `Direct, encrypted machine-to-machine exchange. Use 'envseal p2p
+share' to listen for a teammate, then 'envseal p2p sync --addr <host:port>
 --code <code>' on the receiving machine. The pairing code cryptographically
 pins both ends (TLS certificate derived from the code), so a man-in-the-middle
 cannot impersonate the sender without knowing the code.`,
@@ -79,7 +79,7 @@ func newP2PShareCmd() *cobra.Command {
 			fmt.Printf("Listening on %s for %d recipient(s)\n", cyan(addr), len(recipients))
 			fmt.Printf("Pairing code: %s\n", cyan(code))
 			fmt.Printf("Tell the recipient to run:\n")
-			fmt.Printf("  envsync p2p sync --addr %s --code %s\n", addr, code)
+			fmt.Printf("  envseal p2p sync --addr %s --code %s\n", addr, code)
 			fmt.Println("Waiting for connection... (connection bearer / MITM needs to know the code)")
 
 			select {
@@ -99,7 +99,7 @@ func newP2PShareCmd() *cobra.Command {
 	}
 	cmd.Flags().StringVarP(&file, "file", "f", "", "source env file to share")
 	cmd.Flags().StringVar(&envName, "env", "", "environment name (default .env)")
-	cmd.Flags().StringVar(&to, "to", "", "recipient email registered via 'envsync team add'")
+	cmd.Flags().StringVar(&to, "to", "", "recipient email registered via 'envseal team add'")
 	cmd.Flags().IntVarP(&port, "port", "p", 0, "port to listen on (0 = random)")
 	cmd.Flags().DurationVar(&timeout, "timeout", 60*time.Second, "how long to wait for a recipient")
 	return cmd

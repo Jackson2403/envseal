@@ -1,4 +1,4 @@
-# 🔐 EnvSync
+# 🔐 EnvSeal
 
 A blazing-fast CLI that securely manages and syncs `.env` files across a
 development team — **without ever storing secrets in the cloud**. It detects
@@ -10,18 +10,18 @@ see them.
 > what's needed, and keep secrets on your own machines.
 
 <p align="center">
-  <img alt="Go" src="https://img.shields.io/github/go-mod/go-version/Jackson2403/envsync?logo=go&logoColor=white&label=Go" />
-  <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Jackson2403/envsync/ci.yml?branch=main&label=CI" />
-  <img alt="Release" src="https://img.shields.io/github/v/release/Jackson2403/envsync?include_prereleases&label=Release" />
-  <img alt="Downloads" src="https://img.shields.io/github/downloads/Jackson2403/envsync/total" />
-  <img alt="License" src="https://img.shields.io/github/license/Jackson2403/envsync" />
+  <img alt="Go" src="https://img.shields.io/github/go-mod/go-version/Jackson2403/envseal?logo=go&logoColor=white&label=Go" />
+  <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Jackson2403/envseal/ci.yml?branch=main&label=CI" />
+  <img alt="Release" src="https://img.shields.io/github/v/release/Jackson2403/envseal?include_prereleases&label=Release" />
+  <img alt="Downloads" src="https://img.shields.io/github/downloads/Jackson2403/envseal/total" />
+  <img alt="License" src="https://img.shields.io/github/license/Jackson2403/envseal" />
 </p>
 
 ---
 
 ## Highlights
 
-- 🔎 **Audit** — `envsync check` reports missing, unexpected, and
+- 🔎 **Audit** — `envseal check` reports missing, unexpected, and
   dangerously-committed variables at a glance.
 - 🔐 **Hybrid crypto** — AES-256-GCM payload wrapped in X25519 ECDH keys
   (forward secrecy, per-recipient encryption).
@@ -44,7 +44,7 @@ Requires **Go 1.24+**.
 make build
 
 # Or install into your GOPATH/bin
-go install github.com/Jackson2403/envsync/cmd/envsync@latest
+go install github.com/Jackson2403/envseal/cmd/envseal@latest
 ```
 
 The binary needs no runtime dependencies.
@@ -55,33 +55,33 @@ The binary needs no runtime dependencies.
 
 ```bash
 # 1. Each developer generates a keypair + project config
-envsync init                       # writes ~/.envsync + .envsync.toml
+envseal init                       # writes ~/.envseal + .envseal.toml
 
 # 2. Share your PUBLIC key with the team (it's safe to commit)
-envsync init | grep 'public key'   # give teammates this base64 string
-envsync team add alice@acme.com --pubkey <alice's base64>
+envseal init | grep 'public key'   # give teammates this base64 string
+envseal team add alice@acme.com --pubkey <alice's base64>
 
 # 3. Detect what teammates are missing
-envsync check
+envseal check
 ```
 
 ### Sharing a secret environment
 
 ```bash
 # Alice: encrypt .env.staging only for Bob
-envsync share --file .env.staging --env staging --to bob@acme.com --output ./out
+envseal share --file .env.staging --env staging --to bob@acme.com --output ./out
 
-# Bob: receives STAGING.envsync.enc out-of-band, then decrypts
-envsync sync ./out/STAGING.envsync.enc          # writes .env.staging
-envsync sync --merge .env.staging.envsync.enc   # merge, don't overwrite
+# Bob: receives STAGING.envseal.enc out-of-band, then decrypts
+envseal sync ./out/STAGING.envseal.enc          # writes .env.staging
+envseal sync --merge .env.staging.envseal.enc   # merge, don't overwrite
 ```
 
 ### Removing a departing teammate
 
 ```bash
-envsync team remove bob@acme.com          # drop their key
-envsync team list
-envsync rotate ./out/STAGING.envsync.enc  # re-encrypt for remaining members
+envseal team remove bob@acme.com          # drop their key
+envseal team list
+envseal rotate ./out/STAGING.envseal.enc  # re-encrypt for remaining members
 ```
 
 ---
@@ -90,18 +90,18 @@ envsync rotate ./out/STAGING.envsync.enc  # re-encrypt for remaining members
 
 | Command | Description |
 |---------|-------------|
-| `envsync init`             | Generate your identity keypair + `.envsync.toml` |
-| `envsync check`            | Audit `.env` vs `.env.example` (table or JSON) |
-| `envsync share`            | Encrypt an env file for specific teammates |
-| `envsync sync`             | Decrypt a received bundle (replace or merge) |
-| `envsync rotate`           | Re-encrypt a bundle for the current team set |
-| `envsync generate`         | Scaffold `.env.example` from code references |
-| `envsync team add\|remove\|list` | Manage team members' public keys |
-| `envsync hook install\|uninstall` | Install/remove the pre-commit `.env` guard |
-| `envsync history show\|verify`   | Inspect the signed, local audit log |
-| `envsync p2p share\|sync`        | Encrypted machine-to-machine exchange |
-| `envsync completion <shell>`     | Generate shell completions |
-| `envsync man`              | Print the man page (roff) |
+| `envseal init`             | Generate your identity keypair + `.envseal.toml` |
+| `envseal check`            | Audit `.env` vs `.env.example` (table or JSON) |
+| `envseal share`            | Encrypt an env file for specific teammates |
+| `envseal sync`             | Decrypt a received bundle (replace or merge) |
+| `envseal rotate`           | Re-encrypt a bundle for the current team set |
+| `envseal generate`         | Scaffold `.env.example` from code references |
+| `envseal team add\|remove\|list` | Manage team members' public keys |
+| `envseal hook install\|uninstall` | Install/remove the pre-commit `.env` guard |
+| `envseal history show\|verify`   | Inspect the signed, local audit log |
+| `envseal p2p share\|sync`        | Encrypted machine-to-machine exchange |
+| `envseal completion <shell>`     | Generate shell completions |
+| `envseal man`              | Print the man page (roff) |
 ---
 
 ## How the encryption works
@@ -115,7 +115,7 @@ envsync rotate ./out/STAGING.envsync.enc  # re-encrypt for remaining members
       - creates an ephemeral X25519 keypair
       - derives a shared secret (ECDH)
       - wraps the session key
- 5. Writes STAGING.envsync.enc   →  6. reads the bundle
+ 5. Writes STAGING.envseal.enc   →  6. reads the bundle
                                      7. ECDH with Bob's private key
                                         → recovers session key
                                      8. decrypts payload
@@ -133,16 +133,16 @@ envsync rotate ./out/STAGING.envsync.enc  # re-encrypt for remaining members
 - Key exchange: `X25519` (Curve25519 ECDH) via the standard library
   `crypto/ecdh`.
 - Cipher: `AES-256-GCM` with a fresh 12-byte nonce per encryption.
-- Your private key lives in `~/.envsync/identity.key` (0600 perms).
-- Team public keys live in `.envsync/team-keys/` and **are safe to commit** —
+- Your private key lives in `~/.envseal/identity.key` (0600 perms).
+- Team public keys live in `.envseal/team-keys/` and **are safe to commit** —
   they are public by design.
 
 ---
 
-## Configuration (`.envsync.toml`)
+## Configuration (`.envseal.toml`)
 
-Created by `envsync init`. See
-[`.envsync.example.toml`](.envsync.example.toml).
+Created by `envseal init`. See
+[`.envseal.example.toml`](.envseal.example.toml).
 
 ```toml
 [project]
@@ -153,7 +153,7 @@ files   = ["local", "staging", "production"]
 example = ".env.example"
 
 [team]
-keys_dir = ".envsync/team-keys"
+keys_dir = ".envseal/team-keys"
 
 [crypto]
 algorithm = "x25519-aes256gcm"
@@ -167,7 +167,7 @@ dangerous_patterns = ["password", "secret", "token", "api_key", ...]
 ## Development
 
 ```bash
-make build        # compile ./bin/envsync
+make build        # compile ./bin/envseal
 make test         # run unit tests
 make test-race    # tests with the race detector
 make vet          # static checks
@@ -187,10 +187,10 @@ merge, and asserts the plaintext never leaks into the encrypted bundle.
 ### Architecture
 
 ```
-cmd/envsync/main.go        entry point
+cmd/envseal/main.go        entry point
 internal/cli/              cobra command tree (init/check/share/sync/rotate,
                            generate, team, hook, history, p2p, completion, man)
-internal/config/           .envsync.toml, team keys, local identity
+internal/config/           .envseal.toml, team keys, local identity
 internal/parser/           order/comment-aware .env reader & writer
 internal/diff/             missing/extra/dangerous analysis
 internal/crypto/           X25519 + AES-256-GCM envelopes, SSH identity
@@ -206,48 +206,48 @@ scripts/e2e.ps1            two-developer integration test
 ## Guard rails & advanced features
 
 ### Bootstrap identity from your SSH key
-Skip generating a brand-new keypair — derive EnvSync's identity from a key you
+Skip generating a brand-new keypair — derive EnvSeal's identity from a key you
 already have:
 
 ```bash
-envsync init --ssh                    # uses ~/.ssh/id_ed25519
-envsync init --ssh --ssh-key ~/.ssh/deploy   # or any SSH private key
-envsync init --ssh --passphrase "..."        # for encrypted keys
+envseal init --ssh                    # uses ~/.ssh/id_ed25519
+envseal init --ssh --ssh-key ~/.ssh/deploy   # or any SSH private key
+envseal init --ssh --passphrase "..."        # for encrypted keys
 ```
 
-### Pre-commit guard (`envsync hook`)
+### Pre-commit guard (`envseal hook`)
 Stop accidents *before* they reach history. Install a Git pre-commit hook that
 blocks commits of `.env` files (other than `.env.example`/`.env.test`) and lines
 that look like `NAME=<value>` secrets in any staged file:
 
 ```bash
-envsync hook install      # writes .git/hooks/pre-commit
-envsync hook uninstall    # removes it
+envseal hook install      # writes .git/hooks/pre-commit
+envseal hook uninstall    # removes it
 git commit --no-verify    # explicitly override a block
 ```
 
-### Local audit log (`envsync history`)
+### Local audit log (`envseal history`)
 Every `share`, `sync`, and `rotate` appends a **signed, timestamped** entry
-under `~/.envsync/history` — kept locally, never synced. Trace who gave you a
+under `~/.envseal/history` — kept locally, never synced. Trace who gave you a
 secret and when, and verify nobody tampered with the log:
 
 ```bash
-envsync history show                     # table of all entries
-envsync history show --since 7d          # last 7 days
-envsync history verify                   # re-verify every signature
+envseal history show                     # table of all entries
+envseal history show --since 7d          # last 7 days
+envseal history verify                   # re-verify every signature
 ```
 
-### Direct peer-to-peer exchange (`envsync p2p`)
+### Direct peer-to-peer exchange (`envseal p2p`)
 No files, no cloud — encrypt and stream a bundle directly to a teammate over
 TLS. The pairing code is used to derive the server certificate, so both ends
 are cryptographically pinned to the code (a man-in-the-middle must know it):
 
 ```bash
 # Alice, who already added Bob to the team:
-envsync p2p share --file .env.staging --env staging --to bob@example.com
+envseal p2p share --file .env.staging --env staging --to bob@example.com
 
 # Bob, on his machine (same LAN or reachable), typing Alice's code:
-envsync p2p sync --addr 192.168.0.193:55810 --code XVM7-VZUL-63
+envseal p2p sync --addr 192.168.0.193:55810 --code XVM7-VZUL-63
 ```
 
 > The pairing code is the shared secret. Share it out-of-band (e.g. verbally, a
@@ -283,37 +283,37 @@ session key sealed separately for each recipient with X25519 ECDH — so each
 recipient gets their own wrapped copy and forward secrecy from ephemeral keys.
 
 **How do I bootstrap my team quickly?**
-Each developer runs `envsync init`. Share only the printed **public key**
+Each developer runs `envseal init`. Share only the printed **public key**
 (base64) — it is safe to commit — and register it with
-`envsync team add <email> --pubkey <base64>`. No cloud, no central server.
+`envseal team add <email> --pubkey <base64>`. No cloud, no central server.
 
 **Can I use my existing SSH key?**
-Yes. `envsync init --ssh` derives your EnvSync identity from
+Yes. `envseal init --ssh` derives your EnvSeal identity from
 `~/.ssh/id_ed25519` (or `--ssh-key <path>`), so there's no new key to manage.
 
 **What if a teammate leaves?**
-`envsync team remove <email>` drops their public key, then `envsync rotate`
+`envseal team remove <email>` drops their public key, then `envseal rotate`
 re-encrypts a bundle for the remaining members. Discard any bundle already
 distributed to the departing member.
 
 **Will `sync` clobber my local tweaks?**
-Not if you use `--merge`. `envsync sync --merge` overlays only incoming keys and
+Not if you use `--merge`. `envseal sync --merge` overlays only incoming keys and
 preserves your existing entries and comments. Without `--merge`, the whole file
 is replaced.
 
 **How do I stop someone committing `.env` by accident?**
-`envsync hook install` writes a `pre-commit` hook that blocks `.env` files
+`envseal hook install` writes a `pre-commit` hook that blocks `.env` files
 (other than `.env.example`/`.env.test`) and secret-looking lines in any staged
 file. `git commit --no-verify` overrides it in an emergency.
 
 **Is my local history tamper-proof?**
 `share`/`sync`/`rotate` append Ed25519-signed entries. Run
-`envsync history verify` to detect any modification.
+`envseal history verify` to detect any modification.
 
 **How do I install it?**
 Grab the matching binary from the
-[Releases](https://github.com/Jackson2403/envsync/releases) page, or
-`go install github.com/Jackson2403/envsync/cmd/envsync@latest`.
+[Releases](https://github.com/Jackson2403/envseal/releases) page, or
+`go install github.com/Jackson2403/envseal/cmd/envseal@latest`.
 
 ---
 
@@ -330,5 +330,5 @@ coding conventions, and the PR checklist.
 
 Found a vulnerability or want the full threat model? See
 [`SECURITY.md`](SECURITY.md) — or report privately via
-[GitHub Security Advisories](https://github.com/Jackson2403/envsync/security/advisories/new).
+[GitHub Security Advisories](https://github.com/Jackson2403/envseal/security/advisories/new).
 

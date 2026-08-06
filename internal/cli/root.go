@@ -1,4 +1,4 @@
-// Package cli wires the cobra command tree for EnvSync.
+// Package cli wires the cobra command tree for EnvSeal.
 package cli
 
 import (
@@ -13,9 +13,9 @@ var Version = "0.1.0"
 
 // rootCmd is the top-level command.
 var rootCmd = &cobra.Command{
-	Use:   "envsync",
+	Use:   "envseal",
 	Short: "Securely manage and sync .env files across a team",
-	Long: `EnvSync is a developer tool for managing and sharing .env files
+	Long: `EnvSeal is a developer tool for managing and sharing .env files
 without ever storing secrets in the cloud. It audits missing variables
 between env.example and local setups, and uses local keys to encrypt secrets
 for the specific teammates who are allowed to see them.`,
@@ -26,7 +26,7 @@ for the specific teammates who are allowed to see them.`,
 func init() {
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "enable verbose logging")
 	rootCmd.Version = Version
-	rootCmd.SetVersionTemplate("envsync version {{.Version}}\n")
+	rootCmd.SetVersionTemplate("envseal version {{.Version}}\n")
 
 	rootCmd.AddCommand(
 		newInitCmd(),
@@ -51,7 +51,7 @@ func Execute() error {
 
 // requireIdentityErr is a sentinel used when no local keypair exists yet.
 func requireIdentityErr() error {
-	return fmt.Errorf("no local identity found; run 'envsync init' first")
+	return fmt.Errorf("no local identity found; run 'envseal init' first")
 }
 
 // envFileFor returns the path for a named environment. The default ".env"

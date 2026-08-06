@@ -10,7 +10,7 @@ example = ".env.example"
 [team]
 # Directory (relative to project root) where teammates' PUBLIC keys live.
 # Public keys are safe to commit to the repository.
-keys_dir = ".envsync/team-keys"
+keys_dir = ".envseal/team-keys"
 
 [crypto]
 # Default hybrid encryption scheme: X25519 key agreement + AES-256-GCM.

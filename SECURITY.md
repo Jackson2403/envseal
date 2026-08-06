@@ -1,6 +1,6 @@
 # Security Policy
 
-EnvSync is designed to keep secrets **off your cloud** — a departing member's
+EnvSeal is designed to keep secrets **off your cloud** — a departing member's
 key rotation, per-recipient encryption, and a zero-plaintext bundle format. We
 take vulnerabilities here seriously.
 
@@ -18,7 +18,7 @@ reporting an issue from an older tag.
 **Do not open a public issue for a security vulnerability.** Report it privately
 via GitHub's built-in **private vulnerability reporting**:
 
-1. Go to <https://github.com/Jackson2403/envsync/security/advisories/new>
+1. Go to <https://github.com/Jackson2403/envseal/security/advisories/new>
 2. Fill in a title and a clear, minimal description of the issue.
 3. Include, where possible: affected command(s)/flags, a reproducible example,
    and the suspected impact.
@@ -40,8 +40,8 @@ sensitive details out of public channels.
 - Issues in the P2P transport: certificate pinning, pairing-code handling, or
   ~~man-in-the-middle~~ weaknesses.
 - The `history` audit log: signature bypass or log tampering that goes
-  undetected by `envsync history verify`.
-- Any accidental `.env` commit vector that the `envsync hook` guard misses.
+  undetected by `envseal history verify`.
+- Any accidental `.env` commit vector that the `envseal hook` guard misses.
 
 ## Security Model (TL;DR)
 
@@ -49,22 +49,22 @@ sensitive details out of public channels.
   session key; that key is wrapped per recipient via X25519 ECDH using an
   ephemeral keypair (forward secrecy). One compromised recipient does not
   compromise the others' ciphertext.
-- **Zero plaintext** — `.envsync.enc` bundles and the P2P stream carry only
+- **Zero plaintext** — `.envseal.enc` bundles and the P2P stream carry only
   public keys and ciphertext. A documented integration test asserts no
   plaintext leaks into a bundle.
-- **Local keys** — the identity private key lives in `~/.envsync/identity.key`
-  (0600 perms); team **public** keys are safe to commit. Set `ENVSYNC_HOME` to
+- **Local keys** — the identity private key lives in `~/.envseal/identity.key`
+  (0600 perms); team **public** keys are safe to commit. Set `ENVSEAL_HOME` to
   relocate the identity directory.
 - **Audit log** — `share`/`sync`/`rotate` append Ed25519-signed, timestamped
-  entries locally; `envsync history verify` detects tampering.
-- **"Bring your own SSH key"** — `envsync init --ssh` derives the identity from
+  entries locally; `envseal history verify` detects tampering.
+- **"Bring your own SSH key"** — `envseal init --ssh` derives the identity from
   an existing SSH private key, so there is no new key material to protect.
 
 ## Deployment & Hygiene Recommendations
 
-- Never commit real `.env` files — install the guard with `envsync hook install`.
+- Never commit real `.env` files — install the guard with `envseal hook install`.
 - Rotate a member's access by removing their key and running
-  `envsync rotate`; discard previously distributed bundles for that member.
+  `envseal rotate`; discard previously distributed bundles for that member.
 - Share bundle files and P2P pairing codes **out-of-band** (encrypted chat,
   verbal, USB) — never alongside the ciphertext on an unsecured channel.
 - Prefer `--dry-run` on `sync`/`share` when auditing behavior.

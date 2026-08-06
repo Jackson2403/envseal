@@ -1,4 +1,4 @@
-﻿name: CI
+name: CI
 
 on:
   push:
@@ -84,15 +84,15 @@ jobs:
           if [ "$goos" = "windows" ]; then ext=".exe"; fi
           mkdir -p dist
           CGO_ENABLED=0 GOOS="$goos" GOARCH="$goarch" \
-            go build -trimpath -ldflags="-s -w -X github.com/Jackson2403/envsync/internal/cli.Version=${{ github.ref_name }}" \
-            -o "dist/envsync-$goos-$goarch$ext" ./cmd/envsync
+            go build -trimpath -ldflags="-s -w -X github.com/Jackson2403/envseal/internal/cli.Version=${{ github.ref_name }}" \
+            -o "dist/envseal-$goos-$goarch$ext" ./cmd/envseal
         env:
           TARGET: ${{ matrix.target }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: envsync-${{ matrix.name }}
+          name: envseal-${{ matrix.name }}
           path: dist/*
 
   release:

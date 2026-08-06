@@ -1,4 +1,4 @@
-// Package config manages the per-project `.envsync.toml` configuration
+// Package config manages the per-project `.envseal.toml` configuration
 // and the local identity/team key storage.
 package config
 
@@ -10,7 +10,7 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-// Config is the top-level `.envsync.toml` structure.
+// Config is the top-level `.envseal.toml` structure.
 type Config struct {
 	Project Project `toml:"project"`
 	Envs    Envs    `toml:"envs"`
@@ -62,7 +62,7 @@ func Default() Config {
 			Files:   []string{"local", "staging", "production"},
 			Example: ".env.example",
 		},
-		Team:   Team{KeysDir: ".envsync/team-keys"},
+		Team:   Team{KeysDir: ".envseal/team-keys"},
 		Crypto: Crypto{Algorithm: "x25519-aes256gcm"},
 		Check: Check{
 			DangerousPatterns: []string{
@@ -78,7 +78,7 @@ func Default() Config {
 }
 
 // Filename is the canonical config file name.
-const Filename = ".envsync.toml"
+const Filename = ".envseal.toml"
 
 // Load reads the config from the current directory (or dir when provided).
 // If the file can't be found, a default config is returned without error so

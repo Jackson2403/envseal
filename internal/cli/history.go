@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Jackson2403/envsync/internal/audit"
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/parser"
+	"github.com/Jackson2403/envseal/internal/audit"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/parser"
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
@@ -21,7 +21,7 @@ func newHistoryCmd() *cobra.Command {
 		Use:   "history",
 		Short: "Show the local, signed audit log",
 		Long: `Inspect the local-only, append-only, signed audit log kept at
-~/.envsync/history for this project. It records every share, sync, and rotate
+~/.envseal/history for this project. It records every share, sync, and rotate
 operation so you can trace who gave you a secret and when.`,
 	}
 	cmd.AddCommand(newHistoryShowCmd(), newHistoryVerifyCmd())

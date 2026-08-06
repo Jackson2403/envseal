@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/crypto"
 	"github.com/spf13/cobra"
 )
 
@@ -19,18 +19,18 @@ func newInitCmd() *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "init",
-		Short: "Initialize EnvSync for this project",
-		Long: `Initialize EnvSync: generates a local identity keypair in
-~/.envsync and writes a .envsync.toml project configuration file.
+		Short: "Initialize EnvSeal for this project",
+		Long: `Initialize EnvSeal: generates a local identity keypair in
+~/.envseal and writes a .envseal.toml project configuration file.
 
 By default a fresh X25519 keypair is generated. With --ssh the identity is
 derived from an existing SSH private key (e.g. ~/.ssh/id_ed25519) so a
-developer's existing key can double as their EnvSync identity.`,
+developer's existing key can double as their EnvSeal identity.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// 1. Identity.
 			if config.HasIdentity() && !force {
 				return fmt.Errorf("identity already exists in %s; use --force to regenerate",
-					config.EnvSyncHome())
+					config.EnvSealHome())
 			}
 
 			var priv, pub []byte
@@ -55,7 +55,7 @@ developer's existing key can double as their EnvSync identity.`,
 				if err != nil {
 					return err
 				}
-				fmt.Printf("Identity generated: %s\n", config.EnvSyncHome())
+				fmt.Printf("Identity generated: %s\n", config.EnvSealHome())
 			}
 			if err := config.WriteIdentity(priv, pub); err != nil {
 				return err
@@ -66,7 +66,7 @@ developer's existing key can double as their EnvSync identity.`,
 
 			// 2. Config (idempotent).
 			if _, err := os.Stat(config.Filename); err == nil && !force {
-				fmt.Println("Note: .envsync.toml already exists (left untouched).")
+				fmt.Println("Note: .envseal.toml already exists (left untouched).")
 				return nil
 			}
 			cfg := config.Default()
@@ -77,12 +77,12 @@ developer's existing key can double as their EnvSync identity.`,
 				return fmt.Errorf("write config: %w", err)
 			}
 			fmt.Printf("Project config written: %s\n", config.Filename)
-			fmt.Println("Next: run 'envsync team add <email> --pubkey <base64>'")
+			fmt.Println("Next: run 'envseal team add <email> --pubkey <base64>'")
 			return nil
 		},
 	}
 
-	cmd.Flags().StringVar(&teamName, "name", "", "project name to record in .envsync.toml")
+	cmd.Flags().StringVar(&teamName, "name", "", "project name to record in .envseal.toml")
 	cmd.Flags().BoolVar(&force, "force", false, "overwrite an existing identity/config")
 	cmd.Flags().BoolVar(&fromSSH, "ssh", false, "derive the identity from an existing SSH private key")
 	cmd.Flags().StringVar(&sshKey, "ssh-key", "", "path to the SSH private key (default ~/.ssh/id_ed25519)")

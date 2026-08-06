@@ -1,11 +1,11 @@
-# EnvSync end-to-end integration smoke test.
+# EnvSeal end-to-end integration smoke test.
 # Simulates two developers (Alice shares -> Bob syncs) using isolated
 # identities, then verifies the plaintext never leaks into the bundle.
 #
 # Usage:  powershell -File scripts\e2e.ps1
 $ErrorActionPreference = 'Stop'
 $base = 'C:\Users\Heman\Desktop\envsync\.scratch'
-$exe  = 'C:\Users\Heman\Desktop\envsync\bin\envsync.exe'
+$exe  = 'C:\Users\Heman\Desktop\envsync\bin\envseal.exe'
 
 function RunAs($identityDir, $workDir, [scriptblock]$body) {
     $prevUP = $env:USERPROFILE
@@ -53,7 +53,7 @@ Write-Host "=== 4. Bob initializes (separate identity) ===" -ForegroundColor Cya
 RunAs "$base\id-bob" "$base\bob" { & $exe init --name acme-app }
 
 Write-Host "=== 5. Read Bob's public key (base64 text) ===" -ForegroundColor Cyan
-$bobPub = (Get-Content "$base\id-bob\.envsync\identity.pub" -Raw).Trim()
+$bobPub = (Get-Content "$base\id-bob\.envseal\identity.pub" -Raw).Trim()
 Write-Output "Bob pubkey: $bobPub"
 
 Write-Host "=== 6. Alice registers Bob's key ===" -ForegroundColor Cyan
@@ -69,11 +69,11 @@ RunAs "$base\id-alice" "$base\alice" {
 
 Write-Host "=== 8. Bob syncs the bundle ===" -ForegroundColor Cyan
 Write-Host "-- verifying bundle is encrypted (no plaintext leak):" -ForegroundColor Yellow
-if (Select-String -Path "$base\bob\STAGING.envsync.enc" -Pattern 'real-abc123' -Quiet) {
+if (Select-String -Path "$base\bob\STAGING.envseal.enc" -Pattern 'real-abc123' -Quiet) {
     throw 'PLAINTEXT LEAKED in bundle!'
 }
 RunAs "$base\id-bob" "$base\bob" {
-    & $exe sync "$base\bob\STAGING.envsync.enc"
+    & $exe sync "$base\bob\STAGING.envseal.enc"
     Write-Host "-- bob/.env.staging contents:" -ForegroundColor Green
     Get-Content "$base\bob\.env.staging"
 }
@@ -87,7 +87,7 @@ RunAs "$base\id-bob" "$base\bob" {
 Write-Host "=== 10. Demonstrate merge into an existing .env ===" -ForegroundColor Cyan
 Set-Content -Path "$base\bob\.env" -Value 'keep=this' -Encoding ascii
 RunAs "$base\id-bob" "$base\bob" {
-    & $exe sync --merge --out .env "$base\bob\STAGING.envsync.enc"
+    & $exe sync --merge --out .env "$base\bob\STAGING.envseal.enc"
     Write-Host "-- merged .env (keep=this preserved + incoming keys):" -ForegroundColor Green
     Get-Content "$base\bob\.env"
 }

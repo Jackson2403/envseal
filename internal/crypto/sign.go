@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// EnvSync uses a single long-term identity private key for both encryption
+// EnvSeal uses a single long-term identity private key for both encryption
 // (X25519) and, when enabled, for signing audit/history entries. The signing
 // key is an Ed25519 key derived deterministically from the same 32-byte
 // identity scalar, so no extra key material needs to be stored.

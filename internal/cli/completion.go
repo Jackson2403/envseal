@@ -14,10 +14,10 @@ func newCompletionCmd() *cobra.Command {
 		Long: `Generate autocompletion for bash, zsh, fish, or PowerShell.
 
 Usage examples:
-  envsync completion bash > /etc/bash_completion.d/envsync
-  source <(envsync completion zsh)
-  envsync completion zsh > $(brew --prefix)/share/zsh/site-functions/_envsync
-  envsync completion fish | source`,
+  envseal completion bash > /etc/bash_completion.d/envseal
+  source <(envseal completion zsh)
+  envseal completion zsh > $(brew --prefix)/share/zsh/site-functions/_envseal
+  envseal completion fish | source`,
 	}
 
 	cmd.AddCommand(

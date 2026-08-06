@@ -1,6 +1,6 @@
-BINARY=envsync
+BINARY=envseal
 VERSION?=0.1.0
-LDFLAGS=-ldflags "-s -w -X github.com/Jackson2403/envsync/internal/cli.Version=$(VERSION)"
+LDFLAGS=-ldflags "-s -w -X github.com/Jackson2403/envseal/internal/cli.Version=$(VERSION)"
 
 GO=go
 ifeq ($(OS),Windows_NT)
@@ -17,11 +17,11 @@ all: build
 
 ## build: compile a local binary into ./bin
 build:
-	$(GO) build $(LDFLAGS) -o bin/$(BINARY) ./cmd/envsync
+	$(GO) build $(LDFLAGS) -o bin/$(BINARY) ./cmd/envseal
 
 ## install: install into GOPATH/bin
 install:
-	$(GO) install $(LDFLAGS) ./cmd/envsync
+	$(GO) install $(LDFLAGS) ./cmd/envseal
 
 ## test: run unit tests
 test:
@@ -43,10 +43,10 @@ fmt:
 tidy:
 	$(GO) mod tidy
 
-## man: regenerate the man page into docs/envsync.1
+## man: regenerate the man page into docs/envseal.1
 man:
 	@mkdir -p docs
-	$(GO) run ./cmd/envsync man > docs/envsync.1
+	$(GO) run ./cmd/envseal man > docs/envseal.1
 
 ## cross: build for all target platforms into ./dist
 cross: tidy
@@ -56,14 +56,14 @@ cross: tidy
 		os=$${p%/*}; arch=$${p#*/}; \
 		ext=""; \
 		if [ "$$os" = "windows" ]; then ext=".exe"; fi; \
-		out="dist/envsync-$${os}-$${arch}$${ext}"; \
+		out="dist/envseal-$${os}-$${arch}$${ext}"; \
 		echo "==> $$p"; \
-		env GOOS=$$os GOARCH=$$arch CGO_ENABLED=0 $(GO) build $(LDFLAGS) -o "$$out" ./cmd/envsync || exit 1; \
+		env GOOS=$$os GOARCH=$$arch CGO_ENABLED=0 $(GO) build $(LDFLAGS) -o "$$out" ./cmd/envseal || exit 1; \
 	done
 
 ## run: run with a doc string
 run:
-	$(GO) run ./cmd/envsync --help
+	$(GO) run ./cmd/envseal --help
 
 ## clean: remove build artifacts
 clean:

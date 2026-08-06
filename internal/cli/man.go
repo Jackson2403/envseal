@@ -8,17 +8,17 @@ import (
 	"github.com/spf13/cobra/doc"
 )
 
-// newManCmd prints the roff(7) man page for envsync to stdout. Redirect to a
-// file for install:   envsync man > docs/envsync.1
+// newManCmd prints the roff(7) man page for envseal to stdout. Redirect to a
+// file for install:   envseal man > docs/envseal.1
 func newManCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "man",
-		Short: "Print the envsync man page (roff) to stdout",
-		Long:  `Print the generated man page for envsync to stdout.`,
+		Short: "Print the envseal man page (roff) to stdout",
+		Long:  `Print the generated man page for envseal to stdout.`,
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			header := &doc.GenManHeader{
-				Title:   "ENVSYNC",
+				Title:   "ENVSEAL",
 				Section: "1",
 			}
 			buf := new(bytes.Buffer)

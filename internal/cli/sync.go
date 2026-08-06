@@ -5,10 +5,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/crypto"
-	"github.com/Jackson2403/envsync/internal/parser"
-	"github.com/Jackson2403/envsync/internal/transport"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/parser"
+	"github.com/Jackson2403/envseal/internal/transport"
 	"github.com/spf13/cobra"
 )
 
@@ -22,7 +22,7 @@ func newSyncCmd() *cobra.Command {
 		Use:     "sync [bundle]",
 		Aliases: []string{"decrypt", "import"},
 		Short:   "Decrypt a received bundle into your environment",
-		Long: `Decrypt an .envsync.enc bundle using your local identity key and
+		Long: `Decrypt an .envseal.enc bundle using your local identity key and
 load the recovered values into a local env file. By default the whole file is
 replaced; use --merge to only update/add keys, preserving existing layout.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -91,7 +91,7 @@ replaced; use --merge to only update/add keys, preserving existing layout.`,
 		},
 	}
 
-	cmd.Flags().StringVarP(&bundlePath, "file", "f", "", "path to the .envsync.enc bundle")
+	cmd.Flags().StringVarP(&bundlePath, "file", "f", "", "path to the .envseal.enc bundle")
 	cmd.Flags().BoolVar(&merge, "merge", false, "merge values into the existing env file")
 	cmd.Flags().StringVarP(&outPath, "out", "o", "", "explicit destination env file path")
 	cmd.Flags().BoolVar(&dryRun, "dry-run", false, "show what would happen without writing")

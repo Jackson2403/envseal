@@ -8,8 +8,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/parser"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/parser"
 	"github.com/spf13/cobra"
 )
 
@@ -145,7 +145,7 @@ func scanVars(dirs []string) (map[string]struct{}, error) {
 	}
 	delete(found, "PATH") // avoid noise from generic shell patterns
 	for k := range found {
-		if strings.HasPrefix(k, "CLINE") || strings.HasPrefix(k, "EnvSync") {
+		if strings.HasPrefix(k, "CLINE") || strings.HasPrefix(k, "EnvSeal") {
 			delete(found, k)
 		}
 	}
@@ -156,7 +156,7 @@ func scanVars(dirs []string) (map[string]struct{}, error) {
 func skipDir(name string) error {
 	switch name {
 	case "", ".git", "node_modules", "vendor", "target", "build", "dist",
-		".envsync", ".venv", "venv", "__pycache__":
+		".envseal", ".venv", "venv", "__pycache__":
 		return filepath.SkipDir
 	}
 	return nil

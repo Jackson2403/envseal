@@ -4,14 +4,14 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Jackson2403/envsync/internal/config"
-	"github.com/Jackson2403/envsync/internal/crypto"
+	"github.com/Jackson2403/envseal/internal/config"
+	"github.com/Jackson2403/envseal/internal/crypto"
 )
 
-// setTestIdentity installs an identity under an isolated ENVSYNC_HOME.
+// setTestIdentity installs an identity under an isolated ENVSEAL_HOME.
 func setTestIdentity(t *testing.T) {
 	t.Helper()
-	t.Setenv("ENVSYNC_HOME", filepath.Join(t.TempDir(), ".envsync"))
+	t.Setenv("ENVSEAL_HOME", filepath.Join(t.TempDir(), ".envseal"))
 	if err := config.EnsureHome(); err != nil {
 		t.Fatalf("ensure home: %v", err)
 	}

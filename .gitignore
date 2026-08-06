@@ -3,12 +3,12 @@
 /dist/
 *.exe
 
-# EnvSync secrets and bundles - never commit these
+# EnvSeal secrets and bundles - never commit these
 .env
 .env.*
 !*.example
-.envsync.enc
-.envsync/team-keys/*.toml.enc
+.envseal.enc
+.envseal/team-keys/*.toml.enc
 
 # Local scratch/integration-test workspace
 .scratch/

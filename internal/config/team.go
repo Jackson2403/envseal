@@ -12,7 +12,7 @@ import (
 // KeysDir returns the absolute path to where team public keys live.
 func (c Config) KeysDir() string {
 	if c.Team.KeysDir == "" {
-		return ".envsync/team-keys"
+		return ".envseal/team-keys"
 	}
 	return c.Team.KeysDir
 }

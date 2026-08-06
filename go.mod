@@ -1,4 +1,4 @@
-module github.com/Jackson2403/envsync
+module github.com/Jackson2403/envseal
 
 go 1.24
 

@@ -15,7 +15,7 @@ import (
 // keypair from it. Ed25519 keys map directly via the standard seed->scalar
 // conversion; other key types (RSA/ECDSA/DSA) derive a 256-bit scalar from the
 // marshaled key material. The derived X25519 private key is stable across runs
-// so a developer can use their existing SSH key as their EnvSync identity.
+// so a developer can use their existing SSH key as their EnvSeal identity.
 //
 // `path` is the private key file (e.g. ~/.ssh/id_ed25519). `passphrase` is
 // optional and only required for passphrase-encrypted keys.
@@ -42,7 +42,7 @@ func DeriveFromSSH(path string, passphrase []byte) (priv, pub []byte, err error)
 		return ed25519ToX25519((*k).Seed())
 	default:
 		// RSA / ECDSA / DSA. Derive a 256-bit scalar deterministically from the
-		// key material so the EnvSync identity is stable.
+		// key material so the EnvSeal identity is stable.
 		if der, merr := x509.MarshalPKCS8PrivateKey(k); merr == nil {
 			return scalarKey(sha256.Sum256(der))
 		}
