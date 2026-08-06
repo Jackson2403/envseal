@@ -51,14 +51,21 @@ jobs:
     needs: test
     if: github.event_name == 'release'
     strategy:
+      fail-fast: false
       matrix:
-        target:
-          - linux/amd64
-          - linux/arm64
-          - darwin/amd64
-          - darwin/arm64
-          - windows/amd64
-          - windows/arm64
+        include:
+          - target: linux/amd64
+            name: linux-amd64
+          - target: linux/arm64
+            name: linux-arm64
+          - target: darwin/amd64
+            name: darwin-amd64
+          - target: darwin/arm64
+            name: darwin-arm64
+          - target: windows/amd64
+            name: windows-amd64
+          - target: windows/arm64
+            name: windows-arm64
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -85,7 +92,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: envsync-${{ matrix.target }}
+          name: envsync-${{ matrix.name }}
           path: dist/*
 
   release:
