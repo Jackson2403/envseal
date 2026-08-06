@@ -36,17 +36,15 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          # macOS arm64 runners occasionally crash Go -race test binaries with a
-          # transient "dyld: missing LC_UUID" abort. Retry to self-heal.
-          for i in 1 2 3; do
-            if go test ./... -race -count=1; then
-              exit 0
-            fi
-            echo "Attempt $i failed; retrying in 5s..."
-            sleep 5
-          done
-          echo "go test failed after 3 attempts"
-          exit 1
+          # macOS arm64 runners abort race-instrumented test binaries with a
+          # "dyld: missing LC_UUID" dyld error (Go race runtime incompatibility
+          # with the current macOS). Run the race detector on the other OSes.
+          race="-race"
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            race=""
+            echo "Skipping -race on macOS (known dyld LC_UUID incompatibility)."
+          fi
+          go test ./... -count=1 $race
 
   build:
     name: Build (${{ matrix.target }})
