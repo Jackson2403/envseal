@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, macos-13, windows-latest ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -34,7 +34,19 @@ jobs:
         run: go vet ./...
 
       - name: Test
-        run: go test ./... -race -count=1
+        shell: bash
+        run: |
+          # macOS arm64 runners occasionally crash Go -race test binaries with a
+          # transient "dyld: missing LC_UUID" abort. Retry to self-heal.
+          for i in 1 2 3; do
+            if go test ./... -race -count=1; then
+              exit 0
+            fi
+            echo "Attempt $i failed; retrying in 5s..."
+            sleep 5
+          done
+          echo "go test failed after 3 attempts"
+          exit 1
 
   build:
     name: Build (${{ matrix.target }})
