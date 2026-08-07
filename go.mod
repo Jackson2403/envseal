@@ -3,7 +3,7 @@ module github.com/Jackson2403/envsync
 go 1.24
 
 require (
-	github.com/BurntSushi/toml v1.4.0
+	github.com/BurntSushi/toml v1.6.0
 	github.com/fatih/color v1.18.0
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.8.1
